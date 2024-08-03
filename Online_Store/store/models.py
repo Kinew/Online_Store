@@ -24,28 +24,26 @@ class Staff(models.Model):
     def get_last_name(self):
         return self.full_name.split()[0]
 
-
 class Product(models.Model):
-    class Product(models.Model):
-        name = models.CharField(
+    name = models.CharField(
             max_length=50,
             unique=True,  # названия товаров не должны повторяться
-        )
-        description = models.TextField()
-        quantity = models.IntegerField(
-            validators=[MinValueValidator(0)],
-        )
-        # поле категории будет ссылаться на модель категории
-        category = models.ForeignKey(
-            to='Category',
-            on_delete=models.CASCADE,
-            related_name='products',  # все продукты в категории будут доступны через поле products
-        )
-        price = models.FloatField(
-            validators=[MinValueValidator(0.0)],
-        )
+    )
+    description = models.TextField()
+    quantity = models.IntegerField(
+        validators=[MinValueValidator(0)],
+    )
+    # поле категории будет ссылаться на модель категории
+    category = models.ForeignKey(
+        to='Category',
+         on_delete=models.CASCADE,
+        related_name='products',  # все продукты в категории будут доступны через поле products
+    )
+    price = models.FloatField(
+        validators=[MinValueValidator(0.0)],
+    )
 
-        def __str__(self):
+    def __str__(self):
             return f'{self.name.title()}: {self.description[:20]}'
 
 

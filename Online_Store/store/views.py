@@ -1,7 +1,9 @@
 from datetime import datetime
-
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Product
+from .forms import ProductForm
 from .filters import ProductFilter
 
 
@@ -34,5 +36,24 @@ class ProductsList(ListView):
 
 class ProductDetail(DetailView):
    model = Product
-   template_name = 'product.html'
+   template_name = 'flatpages/product.html'
    context_object_name = 'product'
+
+
+class ProductCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
+    form_class = ProductForm
+    model = Product
+    template_name = 'product_edit.html'
+
+
+class ProductUpdate(UpdateView):
+    form_class = ProductForm
+    model = Product
+    template_name = 'product_edit.html'
+
+
+class ProductDelete(DeleteView):
+    model = Product
+    template_name = 'product_delete.html'
+    success_url = reverse_lazy('product_list')
